@@ -24,7 +24,7 @@
  * limitations under the License.
  */
 /*
- * This library currently works only with Twitter, although I'd like to
+ * This library currently works only with Hatena, although I'd like to
  * spend some more time to make it generally compatible with other services
  * too.
  */
@@ -348,7 +348,7 @@ var OAuthAdapter = function(params) {
         var client = Ti.Network.createHTTPClient();
         client.open(pMethod, pUrl, false);
         client.setRequestHeader('Authorization', makeAuthorizationHeaderString(parameterMap));
-        client.setRequestHeader('User-Agent', "");
+        client.setRequestHeader('User-Agent', userAgent);
         removeOAuthParams(parameterMap);
         Ti.API.debug(parameterMap);
         client.send(parameterMap);
