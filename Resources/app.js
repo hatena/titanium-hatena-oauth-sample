@@ -27,6 +27,14 @@ if (oAuthAdapter.isAuthorized() == false)  {
         var token = oAuthAdapter.getAccessToken('https://www.hatena.com/oauth/token');
         // save the access token
         oAuthAdapter.saveAccessToken('hatena');
+        // http://developer.hatena.ne.jp/ja/documents/nano/apis/oauth#start
+        oAuthAdapter.send({
+            url : 'http://n.hatena.com/applications/start',
+            parameters: null,
+            title:  'アプリケーションの利用開始通知',
+            successMessage: '',
+            errorMessage: ''
+        });
         showApplicationBase();
     };
 

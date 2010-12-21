@@ -105,6 +105,26 @@ Hatena.Util.createTimelineRow = function (item) {
             text      : item.body_text
         });
         row.add(body);
+    } else if (dc == 43) {
+        // start application
+        Ti.API.info(item);
+        row.className = "timeline_application";
+        var application = Ti.UI.createImageView({
+            image  : item.app_icon_url,
+            top    : 2,
+            left   : 2,
+            width  : 32,
+            height : 32 
+        });
+        row.add(application);
+        var body = Ti.UI.createLabel({
+            left      : 36,
+            height    : 'auto',
+            width     : 'auto',
+            textAlign : 'left',
+            text      : item.author.display_name + 'が' + item.app_name + 'の利用を開始しました'
+        });
+        row.add(body);
     }
     return row;
 }
