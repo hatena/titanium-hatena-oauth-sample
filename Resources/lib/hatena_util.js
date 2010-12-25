@@ -235,3 +235,50 @@ Hatena.Util.createDiaryRow = function(item) {
     });
     return row;
 }
+
+//http://developer.hatena.ne.jp/ja/documents/haiku/apis/rest#auth
+Hatena.Util.createHaikuRow = function(item) {
+    var row = Ti.UI.createTableViewRow();
+    row.height = 'auto';
+    var authorImage = Ti.UI.createImageView({
+        image  : item.user.profile_image_url,
+        top    : 2,
+        left   : 2,
+        width  : 32,
+        height : 32 
+    });
+    row.add(authorImage);
+    var keyword = Ti.UI.createLabel({
+        left      : 36,
+        height    : 12,
+        top       : 2,
+        width     : 'auto',
+        textAlign : 'left',
+        font      : {fontSize: 10},
+        color     : "#999999",
+        text      : item.keyword
+    });
+    row.add(keyword);
+    var body = Ti.UI.createLabel({
+        left      : 36,
+        top       : 14,
+        height    : 'auto',
+        width     : 'auto',
+        textAlign : 'left',
+        text      : item.text
+    });
+    row.add(body);
+    row.link = item.link;
+    row.addEventListener('click', function(e) {
+        var win = Ti.UI.createWindow({
+            title : item.keyword
+        });
+        var webview = Ti.UI.createWebView({
+            url : item.link
+        });
+        win.add(webview);
+        Ti.UI.currentTab.open(win);
+    });
+    return row;
+}
+

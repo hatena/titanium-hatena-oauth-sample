@@ -114,10 +114,22 @@ function showApplicationBase() {
         window:win4
     });
 
+    var win5 = Titanium.UI.createWindow({  
+        title:'ハイク',
+        url  : './window/haiku.js',
+        backgroundColor:'#fff'
+    });
+    var tab5 = Titanium.UI.createTab({  
+        icon:'KS_nav_ui.png',
+        title:'Haiku',
+        window:win5
+    });
+
     tabGroup.addTab(tab1);  
     tabGroup.addTab(tab2);  
     tabGroup.addTab(tab3);  
     tabGroup.addTab(tab4);  
+    tabGroup.addTab(tab5);  
 
     tabGroup.open();
 }
