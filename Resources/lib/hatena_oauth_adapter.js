@@ -50,7 +50,7 @@ var OAuthAdapter = function(params) {
 
     // the accessor is used when communicating with the OAuth libraries to sign the messages
     var accessor = {
-        consumerSecret: consumerSecret,
+        consumerSecret,
         tokenSecret: ''
     };
 
@@ -63,7 +63,7 @@ var OAuthAdapter = function(params) {
     var webView = null;
     var receivePinCallback = null;
 
-    this.loadAccessToken = function(pService) {
+    this.loadAccessToken = pService => {
         Ti.API.debug('Loading access token for service [' + pService + '].');
 
         var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, pService + '.config');
@@ -84,24 +84,22 @@ var OAuthAdapter = function(params) {
             'Loading access token: done [accessToken:' + accessToken 
             + '][accessTokenSecret:' + accessTokenSecret + '].');
     };
-    this.saveAccessToken = function(pService) {
+    this.saveAccessToken = pService => {
         Ti.API.debug('Saving access token [' + pService + '].');
         var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, pService + '.config');
         if (file == null) file = Ti.Filesystem.createFile(Ti.Filesystem.applicationDataDirectory, pService + '.config');
         file.write(JSON.stringify({
-            accessToken: accessToken,
-            accessTokenSecret: accessTokenSecret
+            accessToken,
+            accessTokenSecret
         }));
         Ti.API.debug('Saving access token: done.');
     };
 
     // will tell if the consumer is authorized
-    this.isAuthorized = function() {
-        return ! (accessToken == null || accessTokenSecret == null);
-    };
+    this.isAuthorized = () => ! (accessToken == null || accessTokenSecret == null);
 
     // creates a message to send to the service
-    var createMessage = function(pUrl, method) {
+    var createMessage = (pUrl, method) => {
         var message = {
             action: pUrl ,
             method: (method) ? method : 'POST' ,
@@ -113,12 +111,10 @@ var OAuthAdapter = function(params) {
     };
 
     // returns the pin
-    this.getPin = function() {
-        return pin;
-    };
+    this.getPin = () => pin;
 
     // requests a requet token with the given Url
-    this.getRequestToken = function(pUrl, params) {
+    this.getRequestToken = (pUrl, params) => {
         accessor.tokenSecret = '';
 
         var message = createMessage(pUrl);
@@ -144,7 +140,7 @@ var OAuthAdapter = function(params) {
     }
 
     // unloads the UI used to have the user authorize the application
-    var destroyAuthorizeUI = function() {
+    var destroyAuthorizeUI = () => {
         Ti.API.debug('destroyAuthorizeUI');
         // if the window doesn't exist, exit
         if (window == null) return;
@@ -162,7 +158,7 @@ var OAuthAdapter = function(params) {
 
     // looks for the PIN everytime the user clicks on the WebView to authorize the APP
     // currently works with hatena 
-    var authorizeUICallback = function(e) {
+    var authorizeUICallback = e => {
         Ti.API.debug('authorizeUILoaded');
         if (e.source.html.match(/<pre.*>(.*)<\/pre>/)){
             pin = RegExp.$1;
@@ -172,7 +168,7 @@ var OAuthAdapter = function(params) {
     };
 
     // shows the authorization UI
-    this.showAuthorizeUI = function(pUrl, pReceivePinCallback) {
+    this.showAuthorizeUI = (pUrl, pReceivePinCallback) => {
         Ti.API.debug(pUrl);
         //return;
         receivePinCallback = pReceivePinCallback;
@@ -192,7 +188,7 @@ var OAuthAdapter = function(params) {
             borderRadius: 20,
             borderWidth: 5,
             zIndex: -1,
-            transform: transform
+            transform
         });
         closeLabel = Ti.UI.createLabel({
             textAlign: 'right',
@@ -226,7 +222,7 @@ var OAuthAdapter = function(params) {
         view.animate(animation);
     };
 
-    this.getAccessToken = function(pUrl) {
+    this.getAccessToken = pUrl => {
         accessor.tokenSecret = requestTokenSecret;
 
         var message = createMessage(pUrl);
@@ -255,7 +251,7 @@ var OAuthAdapter = function(params) {
 
     };
 
-    var processQueue = function() {
+    var processQueue = () => {
         Ti.API.debug('Processing queue.');
         while ((q = actionsQueue.shift()) != null)
         send(q);
@@ -264,7 +260,7 @@ var OAuthAdapter = function(params) {
     };
 
     var oauthParams = "OAuth realm,oauth_version,oauth_consumer_key,oauth_nonce,oauth_signature,oauth_signature_method,oauth_timestamp,oauth_token".split(',');
-    var makeAuthorizationHeaderString = function(params) {
+    var makeAuthorizationHeaderString = params => {
         var str = ''; 
         for (var i = 0, len = oauthParams.length; i < len ; i++) {
             var key = oauthParams[i];
@@ -274,14 +270,14 @@ var OAuthAdapter = function(params) {
         return str;
     }
 
-    var removeOAuthParams = function(parameters) {
+    var removeOAuthParams = parameters => {
         var checkString = oauthParams.join(',') + ',';
         for (var p in parameters) {
            if (checkString.indexOf(p + ",") >= 0) delete parameters[p]; 
         }
     }
 
-    var makePostURL = function(url,parameters) {
+    var makePostURL = (url, parameters) => {
         var checkString = oauthParams.join(',') + ',';
         var query = [];
         var newParameters = [];
@@ -302,7 +298,7 @@ var OAuthAdapter = function(params) {
         }
     }
 
-    var send = function(params) {
+    var send = params => {
         var pUrl            = params.url;
         var pParameters     = params.parameters || [];
         var pTitle          = params.title;
