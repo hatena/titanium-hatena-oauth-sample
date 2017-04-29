@@ -2,12 +2,12 @@ if (typeof(Hatena) == 'undefined') {
     Hatena = {};
 }
 Hatena.Util = {};
-Hatena.Util.getProfileIconUrl = function (name) {
+Hatena.Util.getProfileIconUrl = name => {
     var pre = name.match(/^[\w-]{2}/)[0];
     return 'http://st-hatena.com/users/' + pre + '/' + name + '/profile.gif';
 }
 // http://developer.hatena.ne.jp/ja/documents/nano/timeline/nativelist
-Hatena.Util.createTimelineRow = function (item) {
+Hatena.Util.createTimelineRow = item => {
     var row = Ti.UI.createTableViewRow();
     row.height = "auto";
     var dc = item.data_category;
@@ -129,7 +129,7 @@ Hatena.Util.createTimelineRow = function (item) {
     return row;
 }
 // http://developer.hatena.ne.jp/ja/documents/bookmark/apis/atom
-Hatena.Util.bookmarkListXML2JSON = function(xml) {
+Hatena.Util.bookmarkListXML2JSON = xml => {
     var elems = xml.getElementsByTagName("entry");
     var results = [];
     for (var i = 0, len = elems.length; i < len ; i++) {
@@ -148,11 +148,11 @@ Hatena.Util.bookmarkListXML2JSON = function(xml) {
     }
     return {bookmarks:results};
 }
-Hatena.Util.createBookmarkRow = function(item) {
+Hatena.Util.createBookmarkRow = item => {
     var row = Ti.UI.createTableViewRow();
     row.title = item.title;
     row.hasChild = true;
-    row.addEventListener('click', function() {
+    row.addEventListener('click', () => {
         var win = Ti.UI.createWindow({
             title : item.title
         });
@@ -165,7 +165,7 @@ Hatena.Util.createBookmarkRow = function(item) {
     return row;
 }
 //http://developer.hatena.ne.jp/ja/documents/coco/apis/v1/heres
-Hatena.Util.createCocoImakokoRow = function(item) {
+Hatena.Util.createCocoImakokoRow = item => {
     var row = Ti.UI.createTableViewRow();
     row.height = 'auto';
     var spotImage = Ti.UI.createImageView({
@@ -200,7 +200,7 @@ Hatena.Util.createCocoImakokoRow = function(item) {
 }
 
 // http://developer.hatena.ne.jp/ja/documents/diary/apis/atom 
-Hatena.Util.diaryEntryListXML2JSON = function(xml) {
+Hatena.Util.diaryEntryListXML2JSON = xml => {
     var elems = xml.getElementsByTagName("entry");
     var results = [];
     for (var i = 0, len = elems.length; i < len ; i++) {
@@ -219,11 +219,11 @@ Hatena.Util.diaryEntryListXML2JSON = function(xml) {
     }
     return {entries:results};
 }
-Hatena.Util.createDiaryRow = function(item) {
+Hatena.Util.createDiaryRow = item => {
     var row = Ti.UI.createTableViewRow();
     row.title = item.title;
     row.hasChild = true;
-    row.addEventListener('click', function() {
+    row.addEventListener('click', () => {
         var win = Ti.UI.createWindow({
             title : item.title
         });
@@ -237,7 +237,7 @@ Hatena.Util.createDiaryRow = function(item) {
 }
 
 //http://developer.hatena.ne.jp/ja/documents/haiku/apis/rest#auth
-Hatena.Util.createHaikuRow = function(item) {
+Hatena.Util.createHaikuRow = item => {
     var row = Ti.UI.createTableViewRow();
     row.height = 'auto';
     var authorImage = Ti.UI.createImageView({
@@ -269,7 +269,7 @@ Hatena.Util.createHaikuRow = function(item) {
     });
     row.add(body);
     row.link = item.link;
-    row.addEventListener('click', function(e) {
+    row.addEventListener('click', e => {
         var win = Ti.UI.createWindow({
             title : item.keyword
         });

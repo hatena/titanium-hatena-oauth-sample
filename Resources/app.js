@@ -10,8 +10,8 @@ Ti.include('lib/oauth.js');
 Ti.include('lib/hatena_oauth_adapter.js');
 Ti.include('lib/oauth_config.js');
 Ti.App.HatenaOAuthAdapter = new OAuthAdapter({
-    consumerSecret : consumerSecret,
-    consumerKey : consumerKey,
+    consumerSecret,
+    consumerKey,
     signatureMethod : 'HMAC-SHA1',
     userAgent : 'my oauth application'
 });
@@ -22,7 +22,7 @@ oAuthAdapter.loadAccessToken('hatena');
 if (oAuthAdapter.isAuthorized() == false)  {
     // 未認証の場合
     // this function will be called as soon as the application is authorized
-    var receivePin = function() {
+    var receivePin = () => {
         // get the access token with the provided pin/oauth_verifier
         var token = oAuthAdapter.getAccessToken('https://www.hatena.com/oauth/token');
         // save the access token

@@ -110,7 +110,8 @@ function core_hmac_sha1(key, data)
   var bkey = str2binb(key);
   if(bkey.length > 16) bkey = core_sha1(bkey, key.length * chrsz);
 
-  var ipad = Array(16), opad = Array(16);
+  var ipad = Array(16);
+  var opad = Array(16);
   for(var i = 0; i < 16; i++)
   {
     ipad[i] = bkey[i] ^ 0x36363636;
